@@ -1,14 +1,15 @@
 import * as react from 'react';
 import { StyleSheet, View } from 'react-native';
-import {Text, List, Divider, TextInput, Button} from 'react-native-paper';
+import {Text, List, Divider, TextInput, Button, IconButton} from 'react-native-paper';
 
 //*SECTION - Task screen page
 export default function TasksScreen() {
     //Mock data start
     const [tasks, setTasks] = react.useState([
         {id:1, text: 'Finish assessment'},
-        {id:2, text: "Review git commits"},
-        {id:3, text: 'Test add new task'}
+        {id:2, text: "Review Git commits"},
+        {id:3, text: 'Scrimble the Blimble'},
+        {id:4, text: 'DIE DIE DIE'}
     ]);
     //ANCHOR - Task Add
     const [taskText, setTaskText] = react.useState('');
@@ -55,6 +56,15 @@ export default function TasksScreen() {
                             title={item.text}
                             left={props => <List.Icon {...props} icon="checkbox-blank-circle-outline" />}
                             accessibilityLabel={`Task ${item.text}`}
+                            right={(props) => (
+                                <IconButton
+                                    {...props}
+                                    icon="delete-outline"
+                                    onPress={() => setTasks((prev) => prev.filter((t) => t.id !== item.id))
+
+                                    }
+                                />
+                            )}
                         />
                         {index <tasks.length -1 && <Divider style={styles.marg16}/>}
                     </View>   
