@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   divider: {marginVertical: 16},
   homeMarg: {marginBottom: 16},
 
-  inputContainer: {width: '50%', alightContent: 'center', marginBottom: 24}
+  inputContainer: {width: '60%', alightContent: 'center', marginBottom: 24}
 });
 
 /*CODE GRAVE
