@@ -1,6 +1,6 @@
 import * as react from 'react';
-import { StyleSheet, View } from 'react-native';
-import {Text, List, Divider, TextInput, Button, IconButton} from 'react-native-paper';
+import { StyleSheet, View, Keyboard } from 'react-native';
+import {Text, List, Divider, TextInput, Button, IconButton, ActivityIndicator, Snackbar} from 'react-native-paper';
 
 //*SECTION - Task screen page
 export default function TasksScreen() {
@@ -59,11 +59,30 @@ export default function TasksScreen() {
         setTaskText('');
         //keyboard dissmiss
     }
+//ANCHOR - Search Filter
+    const [q, setQ] = react.useState('');
+    const filtered = tasks.filter((t) =>
+        (t.text ?? '').toLowerCase().includes(q.toLowerCase())
+    );
+
+    
+
+
 
     return(
         <View style ={styles.container}>
             <Text variant='headlineMedium' styles={styles.marg16}>
                 Tasks List</Text>
+            
+            
+            <TextInput
+                label="Search tasks"
+                value={q}
+                onChangeText={setQ}
+                mode="outlined"
+                left={<TextInput.Icon icon="magnify" />}
+                style={[styles.input, styles.searchInput]}
+            />
             <View style={styles.formRow}>
                 <TextInput
                     label="Add a task"
@@ -86,7 +105,7 @@ export default function TasksScreen() {
             </View>  
             <List.Section>
                 {tasks.length === 0 && <Text>No Tasks Added</Text>}
-                {tasks.map((item, index) => (
+                {filtered.map((item, index) => (
                     <View key={item.id}>
                         <List.Item 
                             title={item.text}
@@ -113,6 +132,19 @@ export default function TasksScreen() {
             </List.Section>
         </View>
     );
+    
+
+
+    //ANCHOR - Loading UI DOES'T WORK AS NO REMOTE DATA IS BEING USEDTAFETTAFEFFF
+    if (loading) {
+        return (
+            <View style={styles.center}>
+                <ActivityIndicator animating size="large" />
+                <Text style={styles.marg16}>Loading remote Tasks...</Text> 
+            </View>
+        )
+    }
+
 }
 //!SECTION
 
@@ -121,6 +153,7 @@ const styles = StyleSheet.create({
     container: {flex: 1, paddingTop: 50, justifyContent: 'top', alignItems: 'center'},
     formRow: {flexDirection: 'row', gap: 12, alignItems: 'center', marginBottom: 16 },
     marg16:{marginBottom: 16},
-    input: {flex: 1, margin: 5}
+    input: {alignSelf: 'stretch', margin: 5},
+    searchInput:{ marginTop: 8, marginBottom: 24}
 })
 //!SECTION

@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import {ThemeProvider, ThemeContext} from './ThemeContext';
 
 //NOTE - Screen Imports of the screens in our APP
 import HomeScreen from './Screens/HomeScreen';
@@ -28,6 +29,8 @@ function Tabs() {
             iconName = 'home-outline';
           } else if (route.name === 'Settings') {
             iconName = 'settings-outline';
+          } else if (route.name ==='Tasks'){
+            iconName= 'list-outline';
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -45,18 +48,24 @@ function Tabs() {
 //SECTION - Main APP wrapper
 export default function App() {
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Root"
-            component={Tabs}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="Details" component={DetailsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <ThemeProvider>
+      <ThemeContext.Consumer>
+        {({ theme }) => (
+          <PaperProvider theme={theme}>
+            <NavigationContainer theme={theme}>
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="Root"
+                  component={Tabs}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen name="Details" component={DetailsScreen} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </PaperProvider>
+        )}
+      </ThemeContext.Consumer>
+    </ThemeProvider>
   );
 }
 //!SECTION
